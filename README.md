@@ -1,2 +1,2 @@
 # kubernetes-prometheus
-prometheus monitoring tool is installed as container service inside kubernetes cluster
+prometheus monitoring tool is managed as container service inside kubernetes cluster
