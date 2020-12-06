@@ -1,0 +1,22 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: external-crate
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: external-crate
+subsets:
+  - addresses:
+      - ip: ip_1
+      - ip: ip_2
+    ports:
+      - port: 5432
+        protocol: TCP
+        name: postgres

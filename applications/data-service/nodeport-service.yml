@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodeport-service
+  labels:
+    app: data-service
+spec:
+  type: NodePort
+  ports:
+  - port: 30101
+    targetPort: 30101
+    nodePort: 30101
+    protocol: TCP
+    name: data-service-web
+  selector:
+    app: data-service

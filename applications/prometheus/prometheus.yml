@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 5h
+remote_write:
+  - url: "http://internal-service.crate-adapter.svc.cluster.local:9268/write"
+remote_read:
+  - url: "http://internal-service.crate-adapter.svc.cluster.local:9268/read"
+scrape_configs:
+- job_name: 'test-api-server'
+  honor_timestamps: true
+  scrape_interval: 12h
+  scrape_timeout: 120s
+  basic_auth:
+    username: admin@abc.com
+    password: FOO@bar123
+  metrics_path: /test/v1/publish_metrics
+  scheme: http
+  static_configs:
+  - targets: ['internal-service.test.svc.cluster.local:9000']
+    labels:
+      group: 'test-api'

@@ -1,0 +1,46 @@
+kind: StatefulSet
+apiVersion: apps/v1 
+metadata:
+  name: server
+spec:
+  serviceName: prometheus-server
+  selector:
+    matchLabels:
+      app: prometheus
+  replicas: 2 
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      securityContext:
+        fsGroup: 2000
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: prometheus-server
+        image: prometheus-server-image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9090
+          name: prometheus-web
+        volumeMounts:
+            - mountPath: /prometheus
+              name: prometheus
+        env:
+        - name: EXPECTED_NODES
+          value: "2"
+        - name: CLUSTER_NAME
+          value: "test-prometheus"
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+  volumeClaimTemplates:
+  - metadata:
+      name: prometheus
+    spec:
+      accessModes: 
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi

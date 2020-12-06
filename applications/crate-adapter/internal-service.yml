@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: internal-service
+  labels:
+    app: crate-adapter
+spec:
+  # A static IP address is assigned to this service. This IP address is
+  # only reachable from within the Kubernetes cluster.
+  type: ClusterIP
+  ports:
+  - port: 9268
+    name: crate-adapter-port
+  selector:
+    # Apply this to all nodes with the `app:crate` label.
+    app: crate-adapter

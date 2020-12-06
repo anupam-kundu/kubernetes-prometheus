@@ -1,0 +1,22 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: data-service-deployment
+spec:
+  selector:
+    matchLabels:
+      app: data-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: data-service
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - name: data-service
+        image: data-service-image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 30101
+          name: data-service
